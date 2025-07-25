@@ -40,7 +40,9 @@ export class AuthService {
   constructor(private jwtService: JwtService) {}
 
   async validateUser(username: string, password: string): Promise<any> {
-    const user = this.users.find(u => u.username === username && u.password === password);
+    const user = this.users.find(
+      (u) => u.username === username && u.password === password,
+    );
 
     if (user) {
       const { password, ...result } = user;
@@ -62,6 +64,6 @@ export class AuthService {
   }
 
   async getUserById(id: number): Promise<User | null> {
-    return this.users.find(user => user.id === id) || null;
+    return this.users.find((user) => user.id === id) || null;
   }
 }

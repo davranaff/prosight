@@ -1,4 +1,12 @@
-import { IsOptional, IsNumber, IsString, IsEnum, IsArray, Min, Max } from 'class-validator';
+import {
+  IsOptional,
+  IsNumber,
+  IsString,
+  IsEnum,
+  IsArray,
+  Min,
+  Max,
+} from 'class-validator';
 import { Transform, Type } from 'class-transformer';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
@@ -36,7 +44,7 @@ export class GetLocusQueryDto {
 
   @ApiPropertyOptional({ description: 'Filter by region ID', isArray: true })
   @IsOptional()
-  @Transform(({ value }) => Array.isArray(value) ? value : [value])
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
   @IsArray()
   @Type(() => Number)
   @IsNumber({}, { each: true })
@@ -50,10 +58,10 @@ export class GetLocusQueryDto {
   @ApiPropertyOptional({
     description: 'Sideload related data',
     enum: SideloadOption,
-    isArray: true
+    isArray: true,
   })
   @IsOptional()
-  @Transform(({ value }) => Array.isArray(value) ? value : [value])
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
   @IsArray()
   @IsEnum(SideloadOption, { each: true })
   sideload?: SideloadOption[];
@@ -61,7 +69,7 @@ export class GetLocusQueryDto {
   @ApiPropertyOptional({
     description: 'Page number',
     minimum: 1,
-    default: 1
+    default: 1,
   })
   @IsOptional()
   @Type(() => Number)
@@ -73,7 +81,7 @@ export class GetLocusQueryDto {
     description: 'Number of rows per page',
     minimum: 1,
     maximum: 1000,
-    default: 1000
+    default: 1000,
   })
   @IsOptional()
   @Type(() => Number)
@@ -85,7 +93,7 @@ export class GetLocusQueryDto {
   @ApiPropertyOptional({
     description: 'Sort field',
     enum: SortField,
-    default: SortField.ID
+    default: SortField.ID,
   })
   @IsOptional()
   @IsEnum(SortField)
@@ -94,7 +102,7 @@ export class GetLocusQueryDto {
   @ApiPropertyOptional({
     description: 'Sort order',
     enum: SortOrder,
-    default: SortOrder.ASC
+    default: SortOrder.ASC,
   })
   @IsOptional()
   @IsEnum(SortOrder)

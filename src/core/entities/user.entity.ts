@@ -2,7 +2,6 @@
 // import { BaseEntity } from "./base";
 // import { Role } from "./role";
 
-
 // @Entity({ name: 'users' })
 // export class User extends BaseEntity {
 //   @Column({ type: 'varchar', unique: true })

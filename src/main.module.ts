@@ -23,7 +23,7 @@ import { RouterModule } from '@nestjs/core';
             module: LocusModule,
           },
         ],
-      }
+      },
     ]),
     AuthModule,
     LocusModule,

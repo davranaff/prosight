@@ -27,10 +27,13 @@ export class LocusService {
       .getManyAndCount();
 
     let included: LocusMember[] = [];
-    if (query.sideload?.includes(SideloadOption.LOCUS_MEMBERS) && userRole !== UserRole.NORMAL) {
+    if (
+      query.sideload?.includes(SideloadOption.LOCUS_MEMBERS) &&
+      userRole !== UserRole.NORMAL
+    ) {
       await this.loadLocusMembers(loci);
       // Extract all locus members for included field
-      included = loci.flatMap(locus => locus.locusMembers || []);
+      included = loci.flatMap((locus) => locus.locusMembers || []);
     }
 
     return {
@@ -45,7 +48,10 @@ export class LocusService {
     };
   }
 
-  private buildQuery(query: GetLocusQueryDto, userRole: UserRole): SelectQueryBuilder<Locus> {
+  private buildQuery(
+    query: GetLocusQueryDto,
+    userRole: UserRole,
+  ): SelectQueryBuilder<Locus> {
     let queryBuilder = this.locusRepository.createQueryBuilder('locus');
 
     // Apply filters
@@ -54,7 +60,9 @@ export class LocusService {
     }
 
     if (query.assemblyId) {
-      queryBuilder = queryBuilder.andWhere('locus.assemblyId = :assemblyId', { assemblyId: query.assemblyId });
+      queryBuilder = queryBuilder.andWhere('locus.assemblyId = :assemblyId', {
+        assemblyId: query.assemblyId,
+      });
     }
 
     // TODO: DB does not have regionId, such as 86118093, 86696489, 88186467
@@ -70,7 +78,6 @@ export class LocusService {
         .distinct();
     }
 
-
     // Apply sorting
     const sortField = this.getSortField(query.sortBy || 'id');
     const sortOrder = query.sortOrder || 'ASC';
@@ -80,7 +87,7 @@ export class LocusService {
   }
 
   private async loadLocusMembers(loci: Locus[]) {
-    const locusIds = loci.map(locus => locus.id);
+    const locusIds = loci.map((locus) => locus.id);
 
     if (locusIds.length === 0) return;
 
@@ -90,16 +97,19 @@ export class LocusService {
       .getMany();
 
     // Group members by locusId
-    const membersByLocusId = members.reduce((acc, member) => {
-      if (!acc[member.locusId]) {
-        acc[member.locusId] = [];
-      }
-      acc[member.locusId].push(member);
-      return acc;
-    }, {} as Record<number, LocusMember[]>);
+    const membersByLocusId = members.reduce(
+      (acc, member) => {
+        if (!acc[member.locusId]) {
+          acc[member.locusId] = [];
+        }
+        acc[member.locusId].push(member);
+        return acc;
+      },
+      {} as Record<number, LocusMember[]>,
+    );
 
     // Assign members to loci
-    loci.forEach(locus => {
+    loci.forEach((locus) => {
       locus.locusMembers = membersByLocusId[locus.id] || [];
     });
   }

@@ -30,6 +30,6 @@ export class Locus {
   @Column({ name: 'member_count' })
   memberCount: number;
 
-  @OneToMany(() => LocusMember, locusMember => locusMember.locus)
+  @OneToMany(() => LocusMember, (locusMember) => locusMember.locus)
   locusMembers: LocusMember[];
 }

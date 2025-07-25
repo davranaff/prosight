@@ -2,7 +2,6 @@
 // import { BaseEntity } from "./base";
 // import { User } from "./user";
 
-
 // export enum RoleType {
 //     ADMIN = 'ADMIN',
 //     NORMAL = 'NORMAL',

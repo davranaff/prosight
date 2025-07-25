@@ -134,9 +134,7 @@ describe('LocusController (e2e)', () => {
     });
 
     it('should reject request without token', () => {
-      return request(app.getHttpServer())
-        .get('/api/v1/locus')
-        .expect(401);
+      return request(app.getHttpServer()).get('/api/v1/locus').expect(401);
     });
 
     it('should reject request with invalid token', () => {
@@ -201,7 +199,9 @@ describe('LocusController (e2e)', () => {
         .expect((res) => {
           expect(res.body.data.length).toBeGreaterThan(0);
           if (res.body.data.length > 1) {
-            expect(res.body.data[0].id).toBeLessThanOrEqual(res.body.data[1].id);
+            expect(res.body.data[0].id).toBeLessThanOrEqual(
+              res.body.data[1].id,
+            );
           }
         });
     });
@@ -214,7 +214,9 @@ describe('LocusController (e2e)', () => {
         .expect((res) => {
           expect(res.body.data.length).toBeGreaterThan(0);
           if (res.body.data.length > 1) {
-            expect(res.body.data[0].id).toBeGreaterThanOrEqual(res.body.data[1].id);
+            expect(res.body.data[0].id).toBeGreaterThanOrEqual(
+              res.body.data[1].id,
+            );
           }
         });
     });
@@ -309,7 +311,9 @@ describe('LocusController (e2e)', () => {
 
     it('should handle multiple sideload options for admin', () => {
       return request(app.getHttpServer())
-        .get('/api/v1/locus?sideload=locusMembers&sideload=locusMembers&limit=5')
+        .get(
+          '/api/v1/locus?sideload=locusMembers&sideload=locusMembers&limit=5',
+        )
         .set('Authorization', `Bearer ${adminToken}`)
         .expect(200);
     });
@@ -318,7 +322,9 @@ describe('LocusController (e2e)', () => {
   describe('Locus API - Combined Parameters', () => {
     it('should handle combined filtering, pagination and sorting for admin', () => {
       return request(app.getHttpServer())
-        .get('/api/v1/locus?assemblyId=GRCh38&page=1&limit=5&sortBy=id&sortOrder=ASC&sideload=locusMembers')
+        .get(
+          '/api/v1/locus?assemblyId=GRCh38&page=1&limit=5&sortBy=id&sortOrder=ASC&sideload=locusMembers',
+        )
         .set('Authorization', `Bearer ${adminToken}`)
         .expect(200)
         .expect((res) => {
@@ -332,7 +338,9 @@ describe('LocusController (e2e)', () => {
 
     it('should handle combined filtering, pagination and sorting for normal user', () => {
       return request(app.getHttpServer())
-        .get('/api/v1/locus?assemblyId=GRCh38&page=1&limit=5&sortBy=id&sortOrder=ASC')
+        .get(
+          '/api/v1/locus?assemblyId=GRCh38&page=1&limit=5&sortBy=id&sortOrder=ASC',
+        )
         .set('Authorization', `Bearer ${normalToken}`)
         .expect(200)
         .expect((res) => {
@@ -345,7 +353,9 @@ describe('LocusController (e2e)', () => {
 
     it('should handle combined filtering, pagination and sorting for limited user', () => {
       return request(app.getHttpServer())
-        .get('/api/v1/locus?regionId=1&page=1&limit=3&sortBy=chromosome&sortOrder=DESC')
+        .get(
+          '/api/v1/locus?regionId=1&page=1&limit=3&sortBy=chromosome&sortOrder=DESC',
+        )
         .set('Authorization', `Bearer ${limitedToken}`)
         .expect(200)
         .expect((res) => {
